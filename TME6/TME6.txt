@@ -1,0 +1,362 @@
+::::::::::::::
+AMoteur.java
+::::::::::::::
+// 21106878 SONG Michelle
+// 21118889 BENYAHIA Ilyas
+
+
+// Exercice 42 (suite)
+
+// Q.2 & Q.6
+
+public class AMoteur extends Vehicule {
+	private double capacite;
+	private double essence = 0;
+	
+	public AMoteur(String marque, double capacite, double essence) {
+		super(marque);
+		this.capacite = capacite;
+		this.essence = essence;
+	}
+	
+	public String toString() {
+		return super.toString() + " de capacité de réservoir : " + capacite + " et de niveau d'essence : " + essence;
+	}
+	
+	public void approvisionner(double nbLitres) {
+		System.out.println(String.format("Le vehicule avait %.2f L d'essence", essence));
+		if (nbLitres <= capacite - essence) {
+			essence = essence + nbLitres;
+		} else {
+			essence = capacite;
+		}
+		System.out.println(String.format("Le vehicule a %.2f L d'essence", essence));
+	}
+	
+	public boolean enPanne() {
+		return (essence == 0);
+	}
+	
+}
+::::::::::::::
+Camion.java
+::::::::::::::
+// 21106878 SONG Michelle
+// 21118889 BENYAHIA Ilyas
+
+
+// Exercice 42 (suite)
+
+// Q.7
+
+public class Camion extends AMoteur {
+	
+	public Camion(String marque, double capacite, double essence) {
+		super(marque, capacite, essence);
+	}
+	
+	public void transporter(String materiau, int km) {
+		if (super.enPanne()) {
+			System.out.println("Camion " + super.toString() + " n'a plus d'essence");
+		} else {
+			System.out.println("Camion " + super.toString() + " transporte " + materiau +  " sur " + km + " km");
+		}
+	}
+}
+::::::::::::::
+Guitare.java
+::::::::::::::
+// 21106878 SONG Michelle
+// 21118889 BENYAHIA Ilyas
+
+
+// Exercice 41 (suite)
+
+// Q.3
+
+public class Guitare extends Instrument {
+	private String nom;
+	private String type; // indique le type de la guitare
+	
+	public Guitare(int poids, int prix, String type) {
+		super(poids, prix);
+		this.type = type;
+	}
+	
+	public String toString() {
+		return "Guitare " + type + " " + super.toString();
+	}
+	
+	public void jouer() {
+		System.out.println("La guitare " + type + " joue");
+	}
+}
+::::::::::::::
+Instrument.java
+::::::::::::::
+// 21106878 SONG Michelle
+// 21118889 BENYAHIA Ilyas
+
+
+// Exercice 41
+
+
+// Q.2
+
+public class Instrument {
+	private int poids, prix;
+	
+	public Instrument(int poids, int prix) {
+		this.poids = poids;
+		this.prix = prix;
+	}
+	
+	public String toString() {
+		return "poids : " + poids + " kg, prix : " + prix + " euros";
+	}
+	
+	public void jouer() {
+		System.out.println("L'instrument joue");
+	}
+}
+::::::::::::::
+Orchestre.java
+::::::::::::::
+// 21106878 SONG Michelle
+// 21118889 BENYAHIA Ilyas
+
+
+// Exercice 41 (suite)
+
+// Q.4
+
+public class Orchestre {
+	private int nbInstruments = 0;
+	private Instrument[] tab;
+	
+	public Orchestre(int max) {
+		tab = new Instrument[max];
+	}
+	
+	public void ajouterInstrument(Instrument x) {
+		if (nbInstruments < tab.length) {
+			tab[nbInstruments] = x;
+			nbInstruments++;
+		}
+	}
+	
+	public void jouer() {
+		for(int i = 0; i < tab.length; i++) {
+			if (tab[i] == null) {
+				System.out.println("Pas d'instruments !!!");
+			} else {
+				tab[i].jouer();
+			}
+		}
+	}
+	
+}
+::::::::::::::
+Piano.java
+::::::::::::::
+// 21106878 SONG Michelle
+// 21118889 BENYAHIA Ilyas
+
+
+// Exercice 41 (suite)
+
+// Q.3
+
+public class Piano extends Instrument {
+	private String nom;
+	private int nbTouches;
+	
+	public Piano(int poids, int prix, int nbTouches) {
+		super(poids, prix);
+		this.nbTouches = nbTouches;
+	}
+	
+	public String toString() {
+		return "Piano " + nbTouches + " touches " + super.toString();
+	}
+	
+	public void jouer() {
+		System.out.println("Le piano à " + nbTouches + " touches joue");
+	}
+}
+::::::::::::::
+SansMoteur.java
+::::::::::::::
+// 21106878 SONG Michelle
+// 21118889 BENYAHIA Ilyas
+
+
+// Exercice 42 (suite)
+
+// Q.2
+
+public class SansMoteur extends Vehicule {
+	
+	public SansMoteur(String marque) {
+		super(marque);
+	}
+	
+	public String toString() {
+		return super.toString() + " sans moteur";
+	}
+}
+
+::::::::::::::
+TestOrchestre.java
+::::::::::::::
+// 21106878 SONG Michelle
+// 21118889 BENYAHIA Ilyas
+
+
+// Exercice 41 (suite)
+
+// Q.3
+
+public class TestOrchestre {
+	public static void main(String[] args) {
+		Guitare g1 = new Guitare(500, 1050, "electrique");
+		Piano p1 = new Piano(300, 5045, 20);
+		Instrument i = new Instrument(15, 1);
+		
+		System.out.println(g1.toString());
+		System.out.println(p1.toString());
+		
+		Orchestre o = new Orchestre(5);
+		o.ajouterInstrument(p1);
+		o.ajouterInstrument(g1);
+		o.ajouterInstrument(i);
+		
+		o.jouer();
+	}
+}
+
+// Q.41.5.a La méthode jouer() n'est pas trouvée dans la classe Instrument donc il ne peut pas faire jouer les instruments.
+// Q.41.6.b La méthode jouer() est appliquée aux objets des classes filles d'Instrument.
+::::::::::::::
+TestVehicule.java
+::::::::::::::
+// 21106878 SONG Michelle
+// 21118889 BENYAHIA Ilyas
+
+
+// Exercice 42 (suite)
+
+// Q.5
+
+public class TestVehicule {
+	public static void main(String[] args) {
+		Velo v1 = new Velo(17, "MyVTT");
+		Voiture car = new Voiture("Ford", 30, 15);
+		Camion c1 = new Camion("Mercedes", 100, 70);  
+		System.out.println(v1.toString());
+		
+		v1.transporter("Australie" , "Antarctique");
+		
+		Vehicule[] tab = new Vehicule[3];
+		tab[0] = v1;
+		tab[1] = car;
+		tab[2] = c1;
+		
+		for (int i = 0; i < tab.length; i++) {
+			tab[i].rouler(10.0);
+		}
+		
+		car.transporter(5, 200);
+		
+		car.approvisionner(30.0);
+		c1.approvisionner(10.0);
+	}
+} 
+::::::::::::::
+Vehicule.java
+::::::::::::::
+// 21106878 SONG Michelle
+// 21118889 BENYAHIA Ilyas
+
+
+// Exercice 42
+
+// Q.2
+
+public class Vehicule {
+	protected final int numId;
+	private static int compteur = 1;
+	private String marque;
+	private double distance = 0;
+	 
+	public Vehicule(String marque) {
+		numId = compteur;
+		compteur++;
+		this.marque = marque;
+	}
+	
+	public String toString() {
+		return numId + " de marque " + marque;
+	}
+	
+	public void rouler(double distance) {
+		this.distance = this.distance + distance;
+		System.out.println(this.toString() + " a roulé " + this.distance + " km");
+	}
+	
+}
+
+
+// Q.10 On peut factoriser la méthode factoriser au niveau de véhicule , il faudra passer par l'utilisation du super dans les classes filles
+::::::::::::::
+Velo.java
+::::::::::::::
+// 21106878 SONG Michelle
+// 21118889 BENYAHIA Ilyas
+
+
+// Exercice 42 (suite)
+
+// Q.3
+
+public class Velo extends SansMoteur {
+	private int nbVites;
+	
+	public Velo(int nbVites, String marque) {
+		super(marque);
+		this.nbVites = nbVites;
+	}
+	
+	public String toString() {
+		return "Velo " + super.toString() + " " + nbVites + " vitesses";
+	}
+	
+	public void transporter(String depart, String arrivee) {
+		System.out.println("Velo " + super.toString() + " se déplace de " + depart + " a " + arrivee);
+	}
+}
+::::::::::::::
+Voiture.java
+::::::::::::::
+// 21106878 SONG Michelle
+// 21118889 BENYAHIA Ilyas
+
+
+// Exercice 42 (suite)
+
+// Q.7
+
+public class Voiture extends AMoteur {
+	
+	public Voiture(String marque, double capacite, double essence) {
+		super(marque, capacite, essence);
+	}
+	
+	public void transporter(int nbPers, int km) {
+		if (super.enPanne()) {
+			System.out.println("Voiture " + super.toString() + " n'a plus d'essence");
+		} else {
+			System.out.println("Voiture " + super.toString() + " transporte " + nbPers + " personnes sur " + km + " km");
+		}
+	}
+}
